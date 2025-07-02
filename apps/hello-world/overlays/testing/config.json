@@ -1,0 +1,11 @@
+{
+  "appName": "hello-world",
+  "userGivenName": "hello-world",
+  "destNamespace": "default",
+  "destServer": "https://kubernetes.default.svc",
+  "srcPath": "apps/hello-world/overlays/testing",
+  "srcRepoURL": "https://github.com/TheCodingSheikh/kubecodex.git",
+  "srcTargetRevision": "",
+  "labels": null,
+  "annotations": null
+}
