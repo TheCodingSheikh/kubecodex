@@ -10,15 +10,8 @@ spec:
   generators:
   - git:
       files:
-      - path: bootstrap/cluster-resources/*.json
+      - path: bootstrap/cluster-resources/*.yaml
       repoURL: https://github.com/TheCodingSheikh/kubecodex.git
-      requeueAfterSeconds: 20
-      revision: ""
-      template:
-        metadata: {}
-        spec:
-          destination: {}
-          project: ""
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
@@ -31,11 +24,6 @@ spec:
     spec:
       destination:
         server: '{{server}}'
-      ignoreDifferences:
-      - group: argoproj.io
-        jsonPointers:
-        - /status
-        kind: Application
       project: default
       source:
         path: bootstrap/cluster-resources/{{name}}
@@ -44,4 +32,3 @@ spec:
         automated:
           allowEmpty: true
           selfHeal: true
-status: {}

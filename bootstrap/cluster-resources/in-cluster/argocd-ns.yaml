@@ -3,7 +3,4 @@ kind: Namespace
 metadata:
   annotations:
     argocd.argoproj.io/sync-options: Prune=false
-  creationTimestamp: null
   name: argocd
-spec: {}
-status: {}
