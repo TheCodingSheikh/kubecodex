@@ -42,11 +42,10 @@ spec:
         values:
           cluster: "{{index .path.segments 1}}" # apps/<cluster>/<project>/...
           project: "{{index .path.segments 2}}"
-          nested_path: "{{ join (slice .path.segments 1) \"-\" }}"
           app_path: "{{.path.path}}"
   template:
     metadata:
-      name: '{{.values.cluster}}-{{.values.nested_path}}'
+      name: '{{.values.cluster}}-{{.values.app_path | replace \"/\" \"-\" | trimPrefix \"apps-%s-%s\"}}'
       namespace: argocd
     spec:
       destination:
