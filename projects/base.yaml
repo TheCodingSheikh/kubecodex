@@ -33,7 +33,7 @@ spec:
   goTemplateOptions: ["missingkey=error"]
   generators:
     - git:
-        repoURL: <YOUR_REPO_URL>
+        repoURL: https://github.com/TheCodingSheikh/kubecodex.git
         revision: HEAD
         files:
           - path: "apps/**/config.yaml"
@@ -54,7 +54,7 @@ spec:
         server: '{{.values.cluster}}'
       project: '{{.values.project}}'
       source:
-        repoURL: <YOUR_REPO_URL>
+        repoURL: https://github.com/TheCodingSheikh/kubecodex.git
         targetRevision: HEAD
         path: '{{.values.app_path}}'
       syncPolicy:
