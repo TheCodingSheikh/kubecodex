@@ -42,7 +42,7 @@ spec:
         values:
           cluster: "{{index .path.segments 1}}" # apps/<cluster>/<project>/...
           project: "{{index .path.segments 2}}"
-          nested_path: "{{join (slice .path.segments 3 (sub (len .path.segments) 1)) \"-\"}}"
+          nested_path: "{{join (index .path.segments 3 (sub (len .path.segments) 1)) \"-\"}}"
           app_path: "{{.path.path}}"
   template:
     metadata:
