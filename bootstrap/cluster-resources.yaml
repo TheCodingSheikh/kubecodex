@@ -24,7 +24,7 @@ spec:
       namespace: argocd
     spec:
       destination:
-        server: {{server}}
+        server: '{{server}}'
       project: default
       source:
         path: bootstrap/cluster-resources/{{name}}
