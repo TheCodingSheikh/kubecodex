@@ -12,6 +12,7 @@ spec:
       files:
       - path: bootstrap/cluster-resources/*.yaml
       repoURL: https://github.com/TheCodingSheikh/kubecodex.git
+      revision: HEAD
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
