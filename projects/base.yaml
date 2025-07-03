@@ -26,7 +26,7 @@ kind: ApplicationSet
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "0"
-  name: apps-by-cluster-and-project
+  name: base
   namespace: argocd
 spec:
   goTemplate: true
