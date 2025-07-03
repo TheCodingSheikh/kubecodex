@@ -51,7 +51,7 @@ spec:
     spec:
       destination:
         namespace: '{{.destNamespace}}'
-        server: '{{.values.cluster}}'
+        name: '{{.values.cluster}}'
       project: '{{.values.project}}'
       source:
         repoURL: https://github.com/TheCodingSheikh/kubecodex.git
