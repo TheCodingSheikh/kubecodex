@@ -1,0 +1,70 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-options: PruneLast=true
+    argocd.argoproj.io/sync-wave: "-2"
+  name: base
+  namespace: argocd
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  description: base project
+  destinations:
+  - namespace: '*'
+    server: '*'
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  sourceRepos:
+  - '*'
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  name: apps-by-cluster-and-project
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - git:
+        repoURL: <YOUR_REPO_URL>
+        revision: HEAD
+        files:
+          - path: "apps/**/config.yaml"
+          - path: "apps/essentials/**/config.yaml"
+            exclude: true
+        values:
+          cluster: "{{index .path.segments 1}}" # apps/<cluster>/<project>/...
+          project: "{{index .path.segments 2}}"
+          nested_path: "{{join (slice .path.segments 3 (sub (len .path.segments) 1)) \"-\"}}"
+          app_path: "{{.path.path}}"
+  template:
+    metadata:
+      name: '{{.values.cluster}}-{{.values.nested_path}}'
+      namespace: argocd
+    spec:
+      destination:
+        namespace: '{{.destNamespace}}'
+        server: '{{.values.cluster}}'
+      project: '{{.values.project}}'
+      source:
+        repoURL: <YOUR_REPO_URL>
+        targetRevision: HEAD
+        path: '{{.values.app_path}}'
+      syncPolicy:
+        automated:
+          allowEmpty: true
+          prune: true
+          selfHeal: true
+  templatePatch: |
+    metadata:
+      labels: {{ toYaml .labels | nindent 8 }}
+        app.kubernetes.io/name: '{{.values.nested_path}}'
+      annotations: {{ toYaml .annotations | nindent 8 }}
+  syncPolicy: {}
