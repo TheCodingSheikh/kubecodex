@@ -63,7 +63,8 @@ spec:
           selfHeal: true
   templatePatch: |
     metadata:
-      labels: {{ toYaml .labels }}
+      labels:
         app.kubernetes.io/name: '{{.values.app_path | replace "/" "-" | trimPrefix (printf "apps-%s-%s-" .values.cluster .values.project)}}'
+        {{ toYaml .labels }}
       annotations: {{ toYaml .annotations }}
   syncPolicy: {}
