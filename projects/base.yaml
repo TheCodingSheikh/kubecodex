@@ -64,6 +64,6 @@ spec:
   templatePatch: |
     metadata:
       labels: {{ toYaml .labels | nindent 8 }}
-        app.kubernetes.io/name: '{{.values.nested_path}}'
+        app.kubernetes.io/name: '{{.values.app_path | replace "/" "-" | trimPrefix "apps-%s-%s"}}'
       annotations: {{ toYaml .annotations | nindent 8 }}
   syncPolicy: {}
