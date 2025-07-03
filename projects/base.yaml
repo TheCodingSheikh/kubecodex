@@ -45,7 +45,7 @@ spec:
           app_path: "{{.path.path}}"
   template:
     metadata:
-      name: '{{.values.cluster}}-{{.values.app_path | replace "/" "-" | trimPrefix "apps-%s-%s"}}'
+      name: '{{.values.cluster}}-{{.values.app_path | replace "/" "-" | trimPrefix (printf "apps-%s-%s-" .values.cluster .values.project)}}'
       namespace: argocd
     spec:
       destination:
@@ -64,6 +64,6 @@ spec:
   templatePatch: |
     metadata:
       labels: {{ toYaml .labels | nindent 8 }}
-        app.kubernetes.io/name: '{{.values.app_path | replace "/" "-" | trimPrefix "apps-%s-%s"}}'
+        app.kubernetes.io/name: '{{.values.app_path | replace "/" "-" | trimPrefix (printf "apps-%s-%s-" .values.cluster .values.project)}}'
       annotations: {{ toYaml .annotations | nindent 8 }}
   syncPolicy: {}
