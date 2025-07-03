@@ -45,7 +45,7 @@ spec:
           app_path: "{{.path.path}}"
   template:
     metadata:
-      name: '{{.values.cluster}}-{{.values.app_path | replace \"/\" \"-\" | trimPrefix \"apps-%s-%s\"}}'
+      name: '{{.values.cluster}}-{{.values.app_path | replace "/" "-" | trimPrefix "apps-%s-%s"}}'
       namespace: argocd
     spec:
       destination:
