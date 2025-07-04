@@ -1,0 +1,10 @@
+apiVersion: tf.upbound.io/v1alpha1
+kind: Workspace
+metadata:
+  name: example-terraform-workspace
+spec:
+  forProvider:
+    region: us-west-2
+    workspaceName: example-workspace
+  providerConfigRef:
+    name: example-terraform-provider 

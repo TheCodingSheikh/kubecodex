@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: example-aws-clusterrolebinding
+subjects:
+  - kind: User
+    name: aws-user
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: example-aws-clusterrole
+  apiGroup: rbac.authorization.k8s.io 

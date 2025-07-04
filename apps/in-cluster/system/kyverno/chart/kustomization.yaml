@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+helmCharts:
+- name: kyverno
+  repo: https://kyverno.github.io/kyverno/
+  releaseName: kyverno
+  namespace: kyverno
+  version: 3.4.1

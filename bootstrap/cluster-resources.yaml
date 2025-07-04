@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  name: cluster-resources
+  namespace: argocd
+spec:
+  generators:
+  - clusters: {}
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{name}}
+      name: cluster-resources-{{name}}
+      namespace: argocd
+    spec:
+      destination:
+        name: '{{name}}'
+      project: default
+      source:
+        path: cluster-resources/{{name}}
+        repoURL: https://github.com/TheCodingSheikh/kubecodex.git
+      syncPolicy:
+        automated:
+          allowEmpty: true
+          selfHeal: true
