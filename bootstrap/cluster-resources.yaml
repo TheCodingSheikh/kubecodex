@@ -7,11 +7,7 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - git:
-      files:
-      - path: bootstrap/cluster-resources/*.yaml
-      repoURL: https://github.com/TheCodingSheikh/kubecodex.git
-      revision: HEAD
+  - clusters: {}
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
@@ -25,7 +21,7 @@ spec:
         name: '{{name}}'
       project: default
       source:
-        path: bootstrap/cluster-resources/{{name}}
+        path: cluster-resources/{{name}}
         repoURL: https://github.com/TheCodingSheikh/kubecodex.git
       syncPolicy:
         automated:
