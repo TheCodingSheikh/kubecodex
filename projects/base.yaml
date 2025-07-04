@@ -47,7 +47,7 @@ spec:
           name: "{{.path.basename}}"
   template:
     metadata:
-      name: '{{ default ( ( printf "apps-%s-%s-" .values.cluster .values.app_path ) | replace "/" "-" | trimPrefix ( printf "apps-%s-%s-" .values.cluster .values.project ) ) .appName }}'
+      name: '{{ default ( ( printf "%s-%s" .values.cluster .values.app_path ) | replace "/" "-" | trimPrefix ( printf "apps-%s-%s-" .values.cluster .values.project ) ) .appName }}'
       namespace: argocd
     spec:
       destination:
