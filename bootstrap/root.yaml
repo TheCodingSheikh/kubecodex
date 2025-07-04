@@ -5,7 +5,6 @@ metadata:
   finalizers:
   - resources-finalizer.argocd.argoproj.io
   labels:
-    app.kubernetes.io/managed-by: argocd-autopilot
     app.kubernetes.io/name: root
   name: root
   namespace: argocd

@@ -10,12 +10,7 @@ metadata:
 spec:
   destination:
     namespace: argocd
-    server: https://kubernetes.default.svc
-  ignoreDifferences:
-  - group: argoproj.io
-    jsonPointers:
-    - /status
-    kind: Application
+    name: in-cluster
   project: default
   source:
     path: bootstrap
