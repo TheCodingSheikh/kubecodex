@@ -23,6 +23,21 @@ That’s it — your ArgoCD instance will start syncing resources from your GitO
 
 To make ArgoCD manage itself, uncomment `resources` in bootstrap/argo-cd/kustomization.yaml
 
+Of course — here’s a short, professional section you can add to your README to acknowledge your inspirations:
+
+## Example
+
+This is a full example you can view and get ideas from [kubecodex](https://github.com/TheCodingSheikh/kubecodex/tree/example) 
+
+
+## Inspiration
+
+This project was inspired by the ideas and best practices from:
+
+* [kubezero](https://github.com/kubezero/kubezero) 
+* [ArgoCD Autopilot](https://argocd-autopilot.readthedocs.io) 
+
+
 ## Structure Overview
 
 - `apps/` — Cluster and project-specific applications, organized as `apps/<CLUSTER>/<PROJECT>/<APP_NAME>/`.
@@ -98,71 +113,6 @@ cluster-resources/<CLUSTER>/*.yaml
 
 You can override any of these values by specifying them in your `config.yaml`.
 
+## Contribution
 
-## Example Directory Structures
-
-### `apps/` Example
-
-```
-apps/
-  in-cluster/
-    system/
-        config.yaml --> 
-      kyverno/
-        config.yaml -->
-    monitoring/
-      prometheus/
-        config.yaml -->
-```
-
-### `essentials/` Example
-
-```
-essentials/
-  cert-manager/
-    config.yaml
-  external-dns/
-    config.yaml
-```
-
-## Adding Applications
-
-1. Add a new directory and `config.yaml` under `apps/<CLUSTER>/<PROJECT>/<APP_NAME>/` or `essentials/<APP_NAME>/`.
-2. Fill out the `config.yaml` with the application details (or leave it empty to use defaults).
-3. The ApplicationSet will automatically detect and manage the new application.
-
-## Example `config.yaml`
-
-```yaml
-# This file can be empty, or you can override any of the following fields:
-# appName, destNamespace, destServer, repoURL, srcPath, labels, annotations
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: my-app # optional override
-  labels:
-    my-label: value
-  annotations:
-    my-annotation: value
-spec:
-  source:
-    repoURL: https://github.com/example/repo.git # optional override
-    path: path/to/app # optional override
-    targetRevision: HEAD
-  destination:
-    namespace: my-namespace # optional override
-    server: https://kubernetes.default.svc # optional override
-```
-
-## More Information
-
-- See `bootstrap/essentials.yaml`, `bootstrap/cluster-resources.yaml`, and `projects/system.yaml` for ApplicationSet examples.
-- For project definitions, see `projects/`.
-
-## Bootstrap Directory (`bootstrap/`)
-
-This directory contains the initial manifests for bootstrapping Argo CD and the ApplicationSet controllers, as well as the main ApplicationSet definitions that automate the discovery and management of applications and resources in the repository.
-
-## Projects Directory (`projects/`)
-
-This directory contains Argo CD AppProject definitions. Projects are used to logically group applications, set access controls, and define deployment destinations. Each project must be defined here before it can be referenced in the apps/ or essentials/ directories. 
+We would love your ideas and examples
