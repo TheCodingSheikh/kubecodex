@@ -12,9 +12,13 @@ cookiecutter https://github.com/TheCodingSheikh/kubecodex.git
 
 When prompted, fill in your desired variables (e.g., `gitops_repo_name`, etc.).
 
-Then navigate to your generated repo and apply the bootstrap application to install initial ArgoCD resources:
+Then navigate to your generated directory and push it to a git repo, then apply the bootstrap application to install initial ArgoCD resources:
 * ArgoCD must be deployed already.
 
+```bash
+./kubecodex bootstrap
+```
+or
 ```bash
 kubectl apply -f bootstrap.yaml
 ```
@@ -45,6 +49,16 @@ This project was inspired by the ideas and best practices from:
 - `projects/` — Argo CD AppProject definitions for logical grouping and access control.
 - `bootstrap/` — Bootstrap manifests for Argo CD and ApplicationSet resources.
 - `cluster-resources/<CLUSTER>/` — Cluster-wide resources
+
+## Bootstrap Directory (`bootstrap/`)
+
+This directory contains the initial manifests for bootstrapping Argo CD and the ApplicationSet controllers, as well as the main ApplicationSet definitions that automate the discovery and management of applications and resources in the repository.
+
+## Projects Directory (`projects/`)
+
+This directory contains Argo CD AppProject and ApplicationSet definitions. Projects are used to logically group applications, set access controls, and define deployment destinations. Each project must be defined here before it can be referenced in the apps/ or essentials/ directories.
+
+Use `./kubecodex project <name>` to create projects easily, or copy a project and change th respective names manually
 
 ## Applications Directory (`apps/`)
 

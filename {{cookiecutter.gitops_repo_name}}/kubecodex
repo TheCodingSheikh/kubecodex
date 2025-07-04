@@ -1,10 +1,38 @@
+#!/bin/bash
+
+set -e
+
+# Function: Show usage help
+usage() {
+  echo "Usage:"
+  echo "  $0 bootstrap"
+  echo "  $0 project <name>"
+  exit 1
+}
+
+# Function: Handle bootstrap command
+bootstrap() {
+  echo "Applying bootstrap.yaml..."
+  kubectl apply -f bootstrap.yaml
+}
+
+# Function: Handle project command
+project() {
+  local name="$1"
+  if [[ -z "$name" ]]; then
+    echo "Error: Project name is required."
+    usage
+  fi
+
+  mkdir -p projects
+  cat > "projects/${name}.yaml" <<EOF
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   annotations:
     argocd.argoproj.io/sync-options: PruneLast=true
     argocd.argoproj.io/sync-wave: "-2"
-  name: default
+  name: ${name}
   namespace: {{cookiecutter.argocd_namespace}}
 spec:
   clusterResourceWhitelist:
@@ -25,7 +53,7 @@ kind: ApplicationSet
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "0"
-  name: default
+  name: ${name}
   namespace: {{cookiecutter.argocd_namespace}}
 spec:
   goTemplate: true
@@ -36,7 +64,7 @@ spec:
         revision: "HEAD"
         requeueAfterSeconds: 20
         files:
-          - path: "apps/*/default/**/config.yaml"
+          - path: "apps/*/${name}/**/config.yaml"
         values:
           cluster: "{{ '{{' }}index .path.segments 1{{ '}}' }}"
           project: "{{ '{{' }}index .path.segments 2{{ '}}' }}"
@@ -80,3 +108,27 @@ spec:
         {{ '{{' }} $key {{ '}}' }}: {{ '{{' }} $value | quote {{ '}}' }}
         {{ '{{' }}- end {{ '}}' }}
   syncPolicy: {}
+
+EOF
+
+  echo "Project configuration created at projects/${name}.yaml"
+}
+
+# Main CLI entrypoint
+if [[ $# -lt 1 ]]; then
+  usage
+fi
+
+case "$1" in
+  bootstrap)
+    bootstrap
+    ;;
+  project)
+    shift
+    project "$1"
+    ;;
+  *)
+    echo "Unknown command: $1"
+    usage
+    ;;
+esac

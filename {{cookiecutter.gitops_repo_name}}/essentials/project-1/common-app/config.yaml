@@ -1,0 +1,7 @@
+appName: "" # If Empty the Applications' name will be "<cluster>-common-app"
+destNamespace: "" # If Empty the Application destination namespace will be "common-app"
+destServer: "" # If Empty the Applications' destination server will be "<cluster>"
+repoURL: "" # If Empty the Application source repo will be this repo
+srcPath: "" # If Empty the Application source path will be this file's path "essentials/project-1/common-app"
+labels: {} # Additional Application labels
+annotations: {} # Additional Application annotations

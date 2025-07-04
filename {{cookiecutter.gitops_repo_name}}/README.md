@@ -10,6 +10,17 @@ a GitOps repository structure standard using ArgoCD.
 - `bootstrap/` — Bootstrap manifests for Argo CD and ApplicationSet resources.
 - `cluster-resources/<CLUSTER>/` — Cluster-wide resources
 
+## Bootstrap Directory (`bootstrap/`)
+
+This directory contains the initial manifests for bootstrapping Argo CD and the ApplicationSet controllers, as well as the main ApplicationSet definitions that automate the discovery and management of applications and resources in the repository.
+
+## Projects Directory (`projects/`)
+
+This directory contains Argo CD AppProject and ApplicationSet definitions. Projects are used to logically group applications, set access controls, and define deployment destinations. Each project must be defined here before it can be referenced in the apps/ or essentials/ directories.
+
+Use `./kubecodex project <name>` to create projects easily, or copy a project and change th respective names manually
+
+
 ## Applications Directory (`apps/`)
 
 Applications are defined in the following structure:
