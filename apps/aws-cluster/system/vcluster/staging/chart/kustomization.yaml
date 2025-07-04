@@ -4,6 +4,6 @@ kind: Kustomization
 helmCharts:
 - name: vcluster
   repo: https://charts.loft.sh
-  releaseName: vcluster
-  namespace: vcluster-staging
+  releaseName: vcluster-staging
+  namespace: vcluster
   version: 0.24.1
