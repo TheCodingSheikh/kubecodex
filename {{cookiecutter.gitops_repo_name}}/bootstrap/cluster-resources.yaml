@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  name: cluster-resources
+  namespace: {{cookiecutter.argocd_namespace}}
+spec:
+  generators:
+  - clusters: {}
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ '{{' }}name{{ '}}' }}
+      name: cluster-resources-{{ '{{' }}name{{ '}}' }}
+      namespace: {{cookiecutter.argocd_namespace}}
+    spec:
+      destination:
+        name: '{{ '{{' }}name{{ '}}' }}'
+      project: default
+      source:
+        path: cluster-resources/{{ '{{' }}name{{ '}}' }}
+        repoURL: {{cookiecutter.gitops_repo_url}}
+      syncPolicy:
+        automated:
+          allowEmpty: true
+          selfHeal: true

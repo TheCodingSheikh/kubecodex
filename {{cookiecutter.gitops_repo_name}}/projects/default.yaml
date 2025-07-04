@@ -1,0 +1,82 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-options: PruneLast=true
+    argocd.argoproj.io/sync-wave: "-2"
+  name: default
+  namespace: {{cookiecutter.argocd_namespace}}
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  destinations:
+  - namespace: '*'
+    server: '*'
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  sourceRepos:
+  - '*'
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  name: default
+  namespace: {{cookiecutter.argocd_namespace}}
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=default"]
+  generators:
+    - git:
+        repoURL: {{cookiecutter.gitops_repo_url}}
+        revision: "HEAD"
+        requeueAfterSeconds: 20
+        files:
+          - path: "apps/*/default/**/config.yaml"
+        values:
+          cluster: "{{ '{{' }}index .path.segments 1{{ '}}' }}"
+          project: "{{ '{{' }}index .path.segments 2{{ '}}' }}"
+          app_path: "{{ '{{' }}.path.path{{ '}}' }}"
+          name: "{{ '{{' }}.path.basename{{ '}}' }}"
+  template:
+    metadata:
+      name: '{{ '{{' }} default ( printf "%s-%s" .values.cluster ( .values.app_path | replace "/" "-" | trimPrefix ( printf "apps-%s-%s-" .values.cluster .values.project ) ) ) .appName {{ '}}' }}'
+      namespace: {{cookiecutter.argocd_namespace}}
+    spec:
+      destination:
+        namespace: '{{ '{{' }} default ( .values.app_path | replace "/" "-" | trimPrefix ( printf "apps-%s-%s-" .values.cluster .values.project ) ) .destNamespace {{ '}}' }}'
+        name: '{{ '{{' }} default .values.cluster .destServer {{ '}}' }}'
+      project: '{{ '{{' }}.values.project{{ '}}' }}'
+      source:
+        repoURL: '{{ '{{' }} default "{{cookiecutter.gitops_repo_url}}" .repoURL {{ '}}' }}'
+        targetRevision: "HEAD"
+        path: '{{ '{{' }} default .values.app_path .srcPath {{ '}}' }}'
+      syncPolicy:
+        automated:
+          allowEmpty: true
+          prune: true
+          selfHeal: true
+        retry:
+          limit: 30
+          backoff:
+            duration: 20s
+            factor: 1
+            maxDuration: 20s
+        syncOptions:
+        - CreateNamespace=true
+  templatePatch: |
+    metadata:
+      labels:
+        app.kubernetes.io/name: '{{ '{{' }}.values.app_path | replace "/" "-" | trimPrefix (printf "apps-%s-%s-" .values.cluster .values.project){{ '}}' }}'
+        {{ '{{' }}- range $key, $value := .labels {{ '}}' }}
+        {{ '{{' }} $key {{ '}}' }}: {{ '{{' }} $value | quote {{ '}}' }}
+        {{ '{{' }}- end {{ '}}' }}
+      annotations:
+        {{ '{{' }}- range $key, $value := .annotations {{ '}}' }}
+        {{ '{{' }} $key {{ '}}' }}: {{ '{{' }} $value | quote {{ '}}' }}
+        {{ '{{' }}- end {{ '}}' }}
+  syncPolicy: {}
