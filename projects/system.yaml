@@ -4,13 +4,12 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-options: PruneLast=true
     argocd.argoproj.io/sync-wave: "-2"
-  name: critical
+  name: system
   namespace: argocd
 spec:
   clusterResourceWhitelist:
   - group: '*'
     kind: '*'
-  description: ""
   destinations:
   - namespace: '*'
     server: '*'
@@ -26,7 +25,7 @@ kind: ApplicationSet
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "0"
-  name: critical
+  name: system
   namespace: argocd
 spec:
   goTemplate: true
@@ -37,10 +36,11 @@ spec:
         revision: "HEAD"
         requeueAfterSeconds: 20
         files:
-          - path: "apps/critical/**/config.yaml"
+          - path: "apps/*/system/**/config.yaml"
+            exclude: true
         values:
           cluster: "{{index .path.segments 1}}" # apps/<cluster>/<project>/...
-          project: "critical"
+          project: "{{index .path.segments 2}}"
           app_path: "{{.path.path}}"
           name: "{{.path.basename}}"
   template:
@@ -80,5 +80,4 @@ spec:
         {{- range $key, $value := .annotations }}
         {{ $key }}: {{ $value | quote }}
         {{- end }}
-  syncPolicy:
-    preserveResourcesOnDeletion: true
+  syncPolicy: {}
