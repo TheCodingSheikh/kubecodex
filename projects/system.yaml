@@ -37,7 +37,6 @@ spec:
         requeueAfterSeconds: 20
         files:
           - path: "apps/*/system/**/config.yaml"
-            exclude: true
         values:
           cluster: "{{index .path.segments 1}}" # apps/<cluster>/<project>/...
           project: "{{index .path.segments 2}}"

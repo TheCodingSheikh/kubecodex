@@ -17,7 +17,6 @@ spec:
               requeueAfterSeconds: 20
               files:
                 - path: "essentials/**/config.yaml"
-                  exclude: true
               values:
                 project: "{{index .path.segments 1}}"
                 app_path: "{{.path.path}}"
