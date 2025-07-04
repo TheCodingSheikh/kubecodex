@@ -6,15 +6,15 @@ metadata:
   labels:
     app.kubernetes.io/name: autopilot-bootstrap
   name: autopilot-bootstrap
-  namespace: argocd
+  namespace: {{cookiecutter.argocd_namespace}}
 spec:
   destination:
-    namespace: argocd
+    namespace: {{cookiecutter.argocd_namespace}}
     name: in-cluster
   project: default
   source:
     path: bootstrap
-    repoURL: https://github.com/TheCodingSheikh/kubecodex.git
+    repoURL: {{cookiecutter.gitops_repo_url}}
   syncPolicy:
     automated:
       allowEmpty: true

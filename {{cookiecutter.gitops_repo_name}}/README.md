@@ -2,27 +2,6 @@
 
 a GitOps repository structure standard using ArgoCD.
 
-## Quick Start
-
-Generate your GitOps repo structure directly from this template without cloning:
-
-```bash
-cookiecutter https://github.com/TheCodingSheikh/kubecodex.git
-```
-
-When prompted, fill in your desired variables (e.g., `gitops_repo_name`, etc.).
-
-Then navigate to your generated repo and apply the bootstrap application to install initial ArgoCD resources:
-* ArgoCD must be deployed already.
-
-```bash
-kubectl apply -f bootstrap.yaml
-```
-
-That’s it — your ArgoCD instance will start syncing resources from your GitOps repository!
-
-To make ArgoCD manage itself, uncomment `resources` in bootstrap/argo-cd/kustomization.yaml
-
 ## Structure Overview
 
 - `apps/` — Cluster and project-specific applications, organized as `apps/<CLUSTER>/<PROJECT>/<APP_NAME>/`.

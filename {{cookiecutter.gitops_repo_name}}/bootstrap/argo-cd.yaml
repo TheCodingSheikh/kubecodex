@@ -5,15 +5,15 @@ metadata:
   labels:
     app.kubernetes.io/name: argo-cd
   name: argo-cd
-  namespace: argocd
+  namespace: {{cookiecutter.argocd_namespace}}
 spec:
   destination:
-    namespace: argocd
+    namespace: {{cookiecutter.argocd_namespace}}
     server: https://kubernetes.default.svc
   project: default
   source:
     path: bootstrap/argo-cd
-    repoURL: https://github.com/TheCodingSheikh/kubecodex.git
+    repoURL: {{cookiecutter.gitops_repo_url}}
   syncPolicy:
     automated:
       allowEmpty: true

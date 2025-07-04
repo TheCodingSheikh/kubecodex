@@ -1,26 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  creationTimestamp: null
   finalizers:
   - resources-finalizer.argocd.argoproj.io
   labels:
     app.kubernetes.io/name: root
   name: root
-  namespace: argocd
+  namespace: {{cookiecutter.argocd_namespace}}
 spec:
   destination:
-    namespace: argocd
+    namespace: {{cookiecutter.argocd_namespace}}
     server: https://kubernetes.default.svc
-  ignoreDifferences:
-  - group: argoproj.io
-    jsonPointers:
-    - /status
-    kind: Application
   project: default
   source:
     path: projects
-    repoURL: https://github.com/TheCodingSheikh/kubecodex.git
+    repoURL: {{cookiecutter.gitops_repo_url}}
   syncPolicy:
     automated:
       allowEmpty: true
@@ -28,12 +22,3 @@ spec:
       selfHeal: true
     syncOptions:
     - allowEmpty=true
-status:
-  health: {}
-  summary: {}
-  sync:
-    comparedTo:
-      destination: {}
-      source:
-        repoURL: ""
-    status: ""
