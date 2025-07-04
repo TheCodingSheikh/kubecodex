@@ -44,19 +44,20 @@ spec:
           cluster: "{{index .path.segments 1}}" # apps/<cluster>/<project>/...
           project: "{{index .path.segments 2}}"
           app_path: "{{.path.path}}"
+          name: "{{.path.basename}}"
   template:
     metadata:
-      name: '{{.values.cluster}}-{{.values.app_path | replace "/" "-" | trimPrefix (printf "apps-%s-%s-" .values.cluster .values.project)}}'
+      name: '{{ default ( ( printf "apps-%s-%s-" .values.cluster .values.app_path ) | replace "/" "-" | trimPrefix ( printf "apps-%s-%s-" .values.cluster .values.project ) ) .appName }}'
       namespace: argocd
     spec:
       destination:
-        namespace: '{{.destNamespace}}'
-        name: '{{.values.cluster}}'
+        namespace: '{{ default .values.name .destNamespace }}'
+        name: '{{ default .values.cluster .destServer}}'
       project: '{{.values.project}}'
       source:
-        repoURL: https://github.com/TheCodingSheikh/kubecodex.git
+        repoURL: '{{ default "https://github.com/TheCodingSheikh/kubecodex.git" .repoURL}}'
         targetRevision: "HEAD"
-        path: '{{.values.app_path}}'
+        path: '{{ default .values.app_path .srcPath}}'
       syncPolicy:
         automated:
           allowEmpty: true
