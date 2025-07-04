@@ -71,6 +71,7 @@ cluster-resources/<CLUSTER>/*.yaml
   - `destServer`: The destination cluster/server 
   - `repoURL`: The Git repository URL 
   - `srcPath`: The path in the repository 
+  - `srcTargetRevision`: The branch in the repository
   - `labels`: Additional labels for the Application 
   - `annotations`: Additional annotations for the Application 
 
@@ -83,6 +84,7 @@ cluster-resources/<CLUSTER>/*.yaml
 | `destServer`    | The cluster name from the directory structure (for apps/), or each registered cluster (for essentials/) |
 | `repoURL`       | The repository URL where the config.yaml resides                                            |
 | `srcPath`       | The path to the directory containing the config.yaml                                        |
+| `srcTargetRevision`       | `HEAD`                                       |
 | `labels`        | None                                                                                        |
 | `annotations`   | None                                                                                        |
 

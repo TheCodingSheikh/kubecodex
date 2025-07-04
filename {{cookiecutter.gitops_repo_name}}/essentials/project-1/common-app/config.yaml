@@ -3,5 +3,6 @@ destNamespace: "" # If Empty the Application destination namespace will be "comm
 destServer: "" # If Empty the Applications' destination server will be "<cluster>"
 repoURL: "" # If Empty the Application source repo will be this repo
 srcPath: "" # If Empty the Application source path will be this file's path "essentials/project-1/common-app"
+srcTargetRevision: "" # If Empty the Application source target revision will be "HEAD"
 labels: {} # Additional Application labels
 annotations: {} # Additional Application annotations
