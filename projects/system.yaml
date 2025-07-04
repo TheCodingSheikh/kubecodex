@@ -48,7 +48,7 @@ spec:
       namespace: argocd
     spec:
       destination:
-        namespace: '{{ default .values.name .destNamespace }}'
+        namespace: '{{ default ( .values.app_path | replace "/" "-" | trimPrefix ( printf "apps-%s-%s-" .values.cluster .values.project ) ) .destNamespace }}'
         name: '{{ default .values.cluster .destServer}}'
       project: '{{.values.project}}'
       source:
