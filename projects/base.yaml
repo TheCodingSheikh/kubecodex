@@ -59,10 +59,10 @@ spec:
         targetRevision: "HEAD"
         path: '{{ default .values.app_path .srcPath}}'
       syncPolicy:
-        automated:
-          allowEmpty: true
-          prune: true
-          selfHeal: true
+        # automated:
+        #   allowEmpty: true
+        #   prune: true
+        #   selfHeal: true
         retry:
           limit: 30
           backoff:
