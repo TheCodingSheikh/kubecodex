@@ -34,7 +34,8 @@ spec:
   generators:
     - git:
         repoURL: https://github.com/TheCodingSheikh/kubecodex.git
-        revision: HEAD
+        revision: "HEAD"
+        requeueAfterSeconds: 20
         files:
           - path: "apps/**/config.yaml"
           - path: "apps/essentials/**/config.yaml"
@@ -54,13 +55,21 @@ spec:
       project: '{{.values.project}}'
       source:
         repoURL: https://github.com/TheCodingSheikh/kubecodex.git
-        targetRevision: HEAD
+        targetRevision: "HEAD"
         path: '{{.values.app_path}}'
       syncPolicy:
         automated:
           allowEmpty: true
           prune: true
           selfHeal: true
+        retry:
+          limit: 30
+          backoff:
+            duration: 20s
+            factor: 1
+            maxDuration: 20s
+        syncOptions:
+        - CreateNamespace=true
   templatePatch: |
     metadata:
       labels:
