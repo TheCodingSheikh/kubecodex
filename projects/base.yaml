@@ -30,7 +30,7 @@ metadata:
   namespace: argocd
 spec:
   goTemplate: true
-  goTemplateOptions: ["missingkey=error"]
+  goTemplateOptions: ["missingkey=default"]
   generators:
     - git:
         repoURL: https://github.com/TheCodingSheikh/kubecodex.git
