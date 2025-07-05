@@ -27,8 +27,6 @@ That’s it — your ArgoCD instance will start syncing resources from your GitO
 
 To make ArgoCD manage itself, uncomment `resources` in bootstrap/argo-cd/kustomization.yaml
 
-Of course — here’s a short, professional section you can add to your README to acknowledge your inspirations:
-
 ## Example
 
 This is a full example you can view and get ideas from [kubecodex](https://github.com/TheCodingSheikh/kubecodex/tree/example) 
