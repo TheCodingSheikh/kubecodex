@@ -1,0 +1,3 @@
+repoURL: {{cookiecutter.gitops_repo_url}}
+projects:
+  - project-1

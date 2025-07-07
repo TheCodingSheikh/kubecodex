@@ -12,6 +12,8 @@ cookiecutter https://github.com/TheCodingSheikh/kubecodex.git
 
 When prompted, fill in your desired variables (e.g., `gitops_repo_name`, etc.).
 
+for `use_helm_for_projects`, you can manage the projects using [KubeCodex Helm Chart](https://github.com/TheCodingSheikh/helm-charts/tree/main/charts/kubecodex), which is much easier and cleaner.
+
 Then navigate to your generated directory and push it to a git repo, then apply the bootstrap application to install initial ArgoCD resources:
 * ArgoCD must be deployed already.
 

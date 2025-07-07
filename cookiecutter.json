@@ -1,5 +1,6 @@
 {
     "gitops_repo_name": "Kubecodex",
     "gitops_repo_url": "https://github.com/TheCodingSheikh/kubecodex.git",
-    "argocd_namespace": "argocd"
+    "argocd_namespace": "argocd",
+    "use_helm_for_projects": ["yes", "no"]
 }
