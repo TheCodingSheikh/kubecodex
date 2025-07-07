@@ -81,7 +81,7 @@ spec:
       project: '{{ '{{' }}.values.project{{ '}}' }}'
       source:
         repoURL: '{{ '{{' }} default "{{cookiecutter.gitops_repo_url}}" .repoURL {{ '}}' }}'
-        targetRevision: "HEAD"
+        targetRevision: '{{ '{{' }} default "HEAD" .srcTargetRevision {{ '}}' }}'
         path: '{{ '{{' }} default .values.app_path .srcPath {{ '}}' }}'
       syncPolicy:
         automated:
