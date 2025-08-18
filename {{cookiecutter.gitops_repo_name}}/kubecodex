@@ -107,6 +107,14 @@ spec:
         {{ '{{' }}- range $key, $value := .annotations {{ '}}' }}
         {{ '{{' }} $key {{ '}}' }}: {{ '{{' }} $value | quote {{ '}}' }}
         {{ '{{' }}- end {{ '}}' }}
+    spec:
+      syncPolicy:
+        automated:
+        {{ '{{' }}- if ne .autoSync false {{ '}}' }}
+          allowEmpty: true
+          prune: false
+          selfHeal: false
+        {{ '{{' }}- end {{ '}}' }}
   syncPolicy: {}
 
 EOF
