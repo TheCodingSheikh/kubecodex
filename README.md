@@ -111,6 +111,7 @@ cluster-resources/<CLUSTER>/*.yaml
   - `repoURL`: The Git repository URL 
   - `srcPath`: The path in the repository 
   - `srcTargetRevision`: The branch in the repository
+  - `autoSync`: Wither to disable autoSync (enabled by default)
   - `labels`: Additional labels for the Application 
   - `annotations`: Additional annotations for the Application 
 
@@ -124,6 +125,7 @@ cluster-resources/<CLUSTER>/*.yaml
 | `repoURL`       | The repository URL where the config.yaml resides                                            |
 | `srcPath`       | The path to the directory containing the config.yaml                                        |
 | `srcTargetRevision`       | `HEAD`                                       |
+| `autoSync`       | `true`                                       |
 | `labels`        | None                                                                                        |
 | `annotations`   | None                                                                                        |
 
