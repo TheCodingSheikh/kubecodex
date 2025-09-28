@@ -4,7 +4,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "0"
   name: cluster-resources
-  namespace: {{cookiecutter.argocd_namespace}}
+  namespace: argocd
 spec:
   generators:
   - clusters: {}
@@ -13,16 +13,16 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: '{{ '{{' }}name{{ '}}' }}'
-      name: cluster-resources-{{ '{{' }}name{{ '}}' }}
-      namespace: {{cookiecutter.argocd_namespace}}
+        app.kubernetes.io/name: '{{name}}'
+      name: cluster-resources-{{name}}
+      namespace: argocd
     spec:
       destination:
-        name: '{{ '{{' }}name{{ '}}' }}'
+        name: '{{name}}'
       project: default
       source:
-        path: cluster-resources/{{ '{{' }}name{{ '}}' }}
-        repoURL: {{cookiecutter.gitops_repo_url}}
+        path: cluster-resources/{{name}}
+        repoURL: https://github.com/TheCodingSheikh/kubecodex.git
       syncPolicy:
         automated:
           allowEmpty: true

@@ -5,6 +5,7 @@ set -e
 # Function: Show usage help
 usage() {
   echo "Usage:"
+  echo "  $0 setup"
   echo "  $0 bootstrap"
   echo "  $0 project <name>"
   exit 1
@@ -33,7 +34,7 @@ metadata:
     argocd.argoproj.io/sync-options: PruneLast=true
     argocd.argoproj.io/sync-wave: "-2"
   name: ${name}
-  namespace: {{cookiecutter.argocd_namespace}}
+  namespace: argocd
 spec:
   clusterResourceWhitelist:
   - group: '*'
@@ -54,35 +55,35 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "0"
   name: ${name}
-  namespace: {{cookiecutter.argocd_namespace}}
+  namespace: argocd
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=default"]
   generators:
     - git:
-        repoURL: {{cookiecutter.gitops_repo_url}}
+        repoURL: https://github.com/TheCodingSheikh/kubecodex.git
         revision: "HEAD"
         requeueAfterSeconds: 20
         files:
           - path: "apps/*/${name}/**/config.yaml"
         values:
-          cluster: "{{ '{{' }}index .path.segments 1{{ '}}' }}"
-          project: "{{ '{{' }}index .path.segments 2{{ '}}' }}"
-          app_path: "{{ '{{' }}.path.path{{ '}}' }}"
-          name: "{{ '{{' }}.path.basename{{ '}}' }}"
+          cluster: "{{index .path.segments 1}}"
+          project: "{{index .path.segments 2}}"
+          app_path: "{{.path.path}}"
+          name: "{{.path.basename}}"
   template:
     metadata:
-      name: '{{ '{{' }} default ( printf "%s-%s" .values.cluster ( .values.app_path | replace "/" "-" | trimPrefix ( printf "apps-%s-%s-" .values.cluster .values.project ) ) ) .appName {{ '}}' }}'
-      namespace: {{cookiecutter.argocd_namespace}}
+      name: '{{ default ( printf "%s-%s" .values.cluster ( .values.app_path | replace "/" "-" | trimPrefix ( printf "apps-%s-%s-" .values.cluster .values.project ) ) ) .appName }}'
+      namespace: argocd
     spec:
       destination:
-        namespace: '{{ '{{' }} default ( .values.app_path | replace "/" "-" | trimPrefix ( printf "apps-%s-%s-" .values.cluster .values.project ) ) .destNamespace {{ '}}' }}'
-        name: '{{ '{{' }} default .values.cluster .destServer {{ '}}' }}'
-      project: '{{ '{{' }}.values.project{{ '}}' }}'
+        namespace: '{{ default ( .values.app_path | replace "/" "-" | trimPrefix ( printf "apps-%s-%s-" .values.cluster .values.project ) ) .destNamespace }}'
+        name: '{{ default .values.cluster .destServer }}'
+      project: '{{.values.project}}'
       source:
-        repoURL: '{{ '{{' }} default "{{cookiecutter.gitops_repo_url}}" .repoURL {{ '}}' }}'
-        targetRevision: '{{ '{{' }} default "HEAD" .srcTargetRevision {{ '}}' }}'
-        path: '{{ '{{' }} default .values.app_path .srcPath {{ '}}' }}'
+        repoURL: '{{ default "https://github.com/TheCodingSheikh/kubecodex.git" .repoURL }}'
+        targetRevision: '{{ default "HEAD" .srcTargetRevision }}'
+        path: '{{ default .values.app_path .srcPath }}'
       syncPolicy:
         automated:
           allowEmpty: true
@@ -99,22 +100,22 @@ spec:
   templatePatch: |
     metadata:
       labels:
-        app.kubernetes.io/name: '{{ '{{' }}.values.app_path | replace "/" "-" | trimPrefix (printf "apps-%s-%s-" .values.cluster .values.project){{ '}}' }}'
-        {{ '{{' }}- range $key, $value := .labels {{ '}}' }}
-        {{ '{{' }} $key {{ '}}' }}: {{ '{{' }} $value | quote {{ '}}' }}
-        {{ '{{' }}- end {{ '}}' }}
+        app.kubernetes.io/name: '{{.values.app_path | replace "/" "-" | trimPrefix (printf "apps-%s-%s-" .values.cluster .values.project)}}'
+        {{- range $key, $value := .labels }}
+        {{ $key }}: {{ $value | quote }}
+        {{- end }}
       annotations:
-        {{ '{{' }}- range $key, $value := .annotations {{ '}}' }}
-        {{ '{{' }} $key {{ '}}' }}: {{ '{{' }} $value | quote {{ '}}' }}
-        {{ '{{' }}- end {{ '}}' }}
+        {{- range $key, $value := .annotations }}
+        {{ $key }}: {{ $value | quote }}
+        {{- end }}
     spec:
       syncPolicy:
         automated:
-        {{ '{{' }}- if ne .autoSync false {{ '}}' }}
+        {{- if ne .autoSync false }}
           allowEmpty: true
           prune: false
           selfHeal: false
-        {{ '{{' }}- end {{ '}}' }}
+        {{- end }}
   syncPolicy: {}
 
 EOF
