@@ -157,6 +157,13 @@ spec:
           prune: false
           selfHeal: false
         {{- end }}
+        syncOptions:
+        {{- if ne .createNamespace false }}
+          - CreateNamespace=true
+        {{- end }}
+        {{- range .additionalSyncOptions }}
+          - {{ . }}
+        {{- end }}
   syncPolicy: {}
 
 EOF

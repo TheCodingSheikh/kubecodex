@@ -17,6 +17,8 @@ You can override any of the following fields in `config.yaml`:
 - `srcPath`: The path in the repository 
 - `srcTargetRevision`: The branch in the repository
 - `autoSync`: Whether to disable autoSync (enabled by default)
+- `createNamespace`: Whether to create the destination namespace if it does not exist (enabled by default)
+- `additionalSyncOptions`: Additional sync options for the Application. This can include Argo CD [sync options](https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/) such as `Prune`, `ApplyOutOfSyncOnly`, etc.
 - `labels`: Additional labels for the Application 
 - `annotations`: Additional annotations for the Application 
 
@@ -31,6 +33,8 @@ You can override any of the following fields in `config.yaml`:
 | `srcPath`       | The path to the directory containing the config.yaml                                        |
 | `srcTargetRevision`       | `HEAD`                                       |
 | `autoSync`       | `true`                                       |
+| `createNamespace` | `true`                                                                                       |
+| `additionalSyncOptions` | None                                                                                   |
 | `labels`        | None                                                                                        |
 | `annotations`   | None                                                                                        |
 
