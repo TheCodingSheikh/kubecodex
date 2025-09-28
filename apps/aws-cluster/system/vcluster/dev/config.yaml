@@ -1,0 +1,4 @@
+# generated Application name will be "aws-cluster-vcluster-dev" and the target namespace is "vcluster-dev"
+# in here we override the target namespace to be "vcluster"
+
+destNamespace: vcluster

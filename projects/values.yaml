@@ -1,5 +1,9 @@
 repoURL: https://github.com/TheCodingSheikh/kubecodex.git
 namespace: argocd
 projects:
-  - name: project-1
-    preserveResourcesOnDeletion: false
+  - name: system
+    preserveResourcesOnDeletion: true
+  - name: monitoring
+  - name: network
+  - name: security
+

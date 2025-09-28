@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+helmCharts:
+- name: prometheus
+  repo: https://prometheus-community.github.io/helm-charts
+  releaseName: prometheus
+  namespace: monitoring
+  version: 25.8.0 

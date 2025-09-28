@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+helmCharts:
+- name: trust-manager
+  repo: https://charts.jetstack.io
+  releaseName: trust-manager
+  namespace: cert-manager
+  version: v0.3.0

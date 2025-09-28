@@ -1,0 +1,20 @@
+admissionController:
+  rbac:
+    clusterRole:
+      extraResources:
+        - apiGroups:
+            - "*"
+          resources:
+            - "*"
+          verbs:
+            - "*"
+backgroundController:
+  rbac:
+    clusterRole:
+      extraResources:
+        - apiGroups:
+            - "*"
+          resources:
+            - "*"
+          verbs:
+            - "*"

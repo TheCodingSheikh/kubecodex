@@ -1,0 +1,3 @@
+# generated Application name will be "aws-cluster-vcluster-staging" and the target namespace is "vcluster-staging"
+# in here we override the target namespace to be "vcluster"
+destNamespace: vcluster
