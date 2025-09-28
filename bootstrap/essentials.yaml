@@ -22,9 +22,11 @@ spec:
                 app_path: "{{.path.path}}"
                 name: "{{.path.basename}}"
           - clusters: {}
+  syncPolicy:
+    preserveResourcesOnDeletion: true
   template:
     metadata:
-      name: '{{ default ( printf "%s-%s" .name ( .values.app_path | replace "/" "-" | trimPrefix ( printf "essentials-%s-" .values.project ) ) ) .appName }}'
+      name: 'essential-{{ default ( printf "%s-%s" .name ( .values.app_path | replace "/" "-" | trimPrefix ( printf "essentials-%s-" .values.project ) ) ) .appName }}'
       namespace: argocd
     spec:
       destination:
@@ -67,4 +69,4 @@ spec:
           prune: false
           selfHeal: false
         {{- end }}
-  syncPolicy: {}
+
