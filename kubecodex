@@ -11,6 +11,47 @@ usage() {
   exit 1
 }
 
+# Function: Handle setup command
+setup() {
+  echo "Setting up kubecodex configuration..."
+  echo ""
+  
+  # Prompt for Repo URL
+  read -p "Enter your Git repository URL: " repo_url
+  if [[ -z "$repo_url" ]]; then
+    echo "Error: Repository URL is required."
+    exit 1
+  fi
+  
+  # Prompt for Argo Namespace
+  read -p "Enter your ArgoCD namespace (default: argocd): " argo_namespace
+  if [[ -z "$argo_namespace" ]]; then
+    argo_namespace="argocd"
+  fi
+  
+  echo ""
+  echo "Updating configuration files..."
+  echo "Repository URL: $repo_url"
+  echo "ArgoCD Namespace: $argo_namespace"
+  echo ""
+  
+  # Find all files and replace repo URL
+  echo "Replacing repository URLs..."
+  find . -type f \( -name "*.yaml" -o -name "*.yml" -o -name "kubecodex" \) -exec sed -i.bak "s|https://github.com/TheCodingSheikh/kubecodex.git|$repo_url|g" {} \;
+  
+  # Find all files and replace namespace
+  echo "Replacing ArgoCD namespaces..."
+  find . -type f \( -name "*.yaml" -o -name "*.yml" -o -name "kubecodex" \) -exec sed -i.bak "s|namespace: argocd|namespace: $argo_namespace|g" {} \;
+  
+  # Clean up backup files
+  echo "Cleaning up backup files..."
+  find . -name "*.bak" -delete
+  
+  echo ""
+  echo "Setup completed successfully!"
+  echo "You can now run: $0 bootstrap"
+}
+
 # Function: Handle bootstrap command
 bootstrap() {
   echo "Applying bootstrap.yaml..."
@@ -129,6 +170,9 @@ if [[ $# -lt 1 ]]; then
 fi
 
 case "$1" in
+  setup)
+    setup
+    ;;
   bootstrap)
     bootstrap
     ;;
