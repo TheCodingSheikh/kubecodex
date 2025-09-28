@@ -9,19 +9,18 @@ Projects are managed using the Kubecodex Helm chart by default:
 - **`kustomization.yaml`** - References the kubecodex Helm chart
 - **`values.yaml`** - Contains project configuration and repository settings
 - Projects are defined in the `values.yaml` file under the `projects` array
+- **Repository:** [https://github.com/TheCodingSheikh/helm-charts/tree/main/charts/kubecodex](https://github.com/TheCodingSheikh/helm-charts/tree/main/charts/kubecodex)
 
-### Helm Chart Information
-- **Repository:** [https://thecodingsheikh.github.io/helm-charts](https://thecodingsheikh.github.io/helm-charts)
-- **Chart Name:** kubecodex
-- **Version:** 1.0.0
-- **Configuration:** Define projects in the `projects` array in `values.yaml`
+
 
 ### Adding Projects (Helm)
 ```yaml
 projects:
-  - project-1
-  - project-2
-  - my-new-project
+  - name: project-1
+    preserveResourcesOnDeletion: false # Default is false if not set
+  - name: project-2
+    preserveResourcesOnDeletion: true
+  - name: new-project
 ```
 
 ## Alternative: CLI Approach
@@ -31,9 +30,3 @@ If you prefer direct YAML management, remove the Helm chart files and use the CL
 1. Remove `kustomization.yaml` and `values.yaml`
 2. Create projects: `./kubecodex project <name>`
 3. This generates direct YAML manifests (`project-1.yaml`)
-
-## Features
-- Logical grouping of applications
-- Access control and permissions
-- Automatic application discovery
-- Sync policy management
