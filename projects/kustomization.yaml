@@ -5,5 +5,5 @@ helmCharts:
 - name: kubecodex
   repo: https://thecodingsheikh.github.io/helm-charts
   releaseName: kubecodex
-  version: 1.0.0
+  version: 1.1.0
   valuesFile: values.yaml
