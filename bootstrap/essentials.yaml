@@ -62,6 +62,13 @@ spec:
         {{ $key }}: {{ $value | quote }}
         {{- end }}
     spec:
+      destination:
+        name: '{{ default .name .destServer }}'
+        {{- if ne .createNamespace false }}
+        namespace: '{{ default ( .values.app_path | replace "/" "-" | trimPrefix ( printf "essentials-%s-" .values.project ) ) .destNamespace }}'
+        {{- else }}
+        namespace: null
+        {{- end }}
       syncPolicy:
         automated:
         {{- if ne .autoSync false }}
