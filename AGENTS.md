@@ -16,7 +16,7 @@ This repository is a [Kubecodex](https://github.com/TheCodingSheikh/kubecodex)-s
 
 ## Discovery rule
 
-The presence of a `config.yaml` file under `apps/**` or `essentials/**` is what causes an ArgoCD `Application` to be created (the ApplicationSets in `bootstrap/` glob for `*/config.yaml`). The file may be empty — every field has a default derived from the directory path. Override-able keys: `appName`, `destNamespace`, `destServer`, `repoURL`, `srcPath`, `srcTargetRevision`, `autoSync`, `createNamespace`, `additionalSyncOptions`, `labels`, `annotations`, `ignoreDifferences`. See `docs/config-yaml.md`.
+The presence of a `config.yaml` file under `apps/**` or `essentials/**` is what causes an ArgoCD `Application` to be created (the ApplicationSets in `bootstrap/` glob for `*/config.yaml`). The file may be empty — every field has a default derived from the directory path. Override-able keys: `appName`, `destNamespace`, `destServer`, `repoURL`, `srcPath`, `srcTargetRevision`, `autoSync`, `createNamespace`, `additionalSyncOptions`, `labels`, `annotations`, `ignoreDifferences`. Under `essentials/**` only, `include`/`exclude` take arrays of Argo CD cluster names and narrow which clusters the app lands on; they are mutually exclusive and setting both fails the ApplicationSet. See `docs/config-yaml.md`.
 
 To **disable** an app without deleting it, rename `config.yaml` → `config.yaml.disabled` (the glob won't match). Example: `apps/in-cluster/datastore/postgres/pgadmin/config.yaml.disabled`.
 

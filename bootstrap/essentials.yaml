@@ -11,17 +11,30 @@ spec:
   generators:
     - matrix:
         generators:
-          - git:
-              repoURL: https://github.com/TheCodingSheikh/kubecodex.git
-              revision: "HEAD"
-              requeueAfterSeconds: 20
-              files:
-                - path: "essentials/**/config.yaml"
-              values:
-                project: "{{index .path.segments 1}}"
-                app_path: "{{.path.path}}"
-                name: "{{.path.basename}}"
-          - clusters: {}
+          - matrix:
+              generators:
+                - git:
+                    repoURL: https://github.com/TheCodingSheikh/kubecodex.git
+                    revision: "HEAD"
+                    requeueAfterSeconds: 20
+                    files:
+                      - path: "essentials/**/config.yaml"
+                    values:
+                      project: "{{index .path.segments 1}}"
+                      app_path: "{{.path.path}}"
+                      name: "{{.path.basename}}"
+                - clusters: {}
+          - list:
+              elementsYaml: |
+                {{- if and .include .exclude -}}
+                {{- fail (printf "essentials: %s sets both include and exclude; they are mutually exclusive" .values.app_path) -}}
+                {{- else if .include -}}
+                {{- if has .name .include }}[{"targeted":"true"}]{{ else }}[]{{ end -}}
+                {{- else if .exclude -}}
+                {{- if has .name .exclude }}[]{{ else }}[{"targeted":"true"}]{{ end -}}
+                {{- else -}}
+                [{"targeted":"true"}]
+                {{- end -}}
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:

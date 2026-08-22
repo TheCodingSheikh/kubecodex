@@ -22,6 +22,8 @@ You can override any of the following fields in `config.yaml`:
 - `ignoreDifferences`: Array of fields to ignore in the Argo App [diffing customization](https://argo-cd.readthedocs.io/en/stable/user-guide/diffing/)
 - `labels`: Additional labels for the Application 
 - `annotations`: Additional annotations for the Application 
+- `include`: **`essentials/` only.** Cluster allow-list — see [Cluster targeting](essentials.md#cluster-targeting)
+- `exclude`: **`essentials/` only.** Cluster deny-list — see [Cluster targeting](essentials.md#cluster-targeting)
 
 ## Default Values
 
@@ -39,5 +41,7 @@ You can override any of the following fields in `config.yaml`:
 | `ignoreDifferences` | None                                                                                   |
 | `labels`        | None                                                                                        |
 | `annotations`   | None                                                                                        |
+| `include`       | None (deploy to every registered cluster)                                                   |
+| `exclude`       | None (deploy to every registered cluster)                                                   |
 
 You can override any of these values by specifying them in your `config.yaml`.
